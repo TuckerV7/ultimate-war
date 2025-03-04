@@ -32,7 +32,7 @@ playerOnePosition.classList.toggle('playerOnePosition');
 
 
 //Move player one position when arrow keys are pressed
-let playerOneUI = document.querySelector('.player-one');
+let playerOneUI = document.querySelector('.p1-moves');
 let moveCounter = document.createElement('div');
 moveCounter.textContent = 'Moves spent: 0 out of ' + maxMoves;
 
@@ -99,7 +99,7 @@ function PlayerOneTurn() {
   document.addEventListener("keydown", handleKeyPress);
 }
 
-let playerTwoUI = document.querySelector('.player-two');
+let playerTwoUI = document.querySelector('.p2-moves');
 let moveCounterTwo = document.createElement('div');
 moveCounterTwo.textContent = 'Moves spent: 0 out of ' + maxMoves;
 
@@ -177,6 +177,7 @@ let turnbtn = document.createElement('button');
 turnbtn.classList.add('hidden');
 turnbtn.style.height = '75px';
 turnbtn.style.width = '150px';
+turnbtn.style.backgroundColor = 'lightgreen';
 turnbtn.textContent = "Click to begin next player's turn";
 
 turnbtn.addEventListener('click', () => {
@@ -211,4 +212,34 @@ center.appendChild(turnUI);
 playerOneUI.appendChild(moveCounter);
 playerTwoUI.appendChild(moveCounterTwo);
 center.appendChild(turnbtn);
+
+//Player's decks
+
+// Function to create and append deck divs
+function createDeck(deckArray, deckElement) {
+  for (let i = 0; i < deckArray.length; i++) {
+    let deckContents = document.createElement('div');
+    deckContents.style.cssText = "height: 50px; width: 50px;";
+    deckContents.style.borderStyle = 'solid';
+    deckContents.style.borderColor = 'black';
+    deckContents.style.borderWidth = '1px';
+    deckContents.style.margin = '2px';
+    deckContents.style.display = 'flex';
+    deckContents.style.justifyContent = 'center';
+    deckContents.style.alignItems = 'center';
+    deckContents.textContent = `${deckArray[i]}`;
+    deckElement.appendChild(deckContents);
+  }
+}
+
+// Player One
+let DeckOneArr = [1, 2, 3, 4];
+let deckOne = document.querySelector('.p1-deck');
+createDeck(DeckOneArr, deckOne);
+
+// Player Two
+let DeckTwoArr = [1, 2, 3, 4];
+let deckTwo = document.querySelector('.p2-deck');
+createDeck(DeckTwoArr, deckTwo);
+
 

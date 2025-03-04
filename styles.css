@@ -30,8 +30,15 @@ body {
 
 }
 
+.p1-deck, .p2-deck {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+    width: 100%;
+}
 
-.player-one, .player-two {
+.p1-ui, .p2-ui {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -39,14 +46,10 @@ body {
     border-color: black;
     height: 90%;
     width: 30%;
+    margin: 10px;
 }
 
-.player-one {
-    color: red;
-}
-.player-two {
-    color: blue;
-}
+
 
 
 .playerOnePosition {
