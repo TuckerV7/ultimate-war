@@ -56,3 +56,7 @@ body {
 .playerTwoPosition {
     background-color: blue;
 }
+
+.hidden {
+    display: none;
+}
