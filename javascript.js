@@ -12,13 +12,23 @@ let popupMessage = document.querySelector('.popup-message')
 let acceptPopup = document.getElementById("accept");
 let declinePopup = document.getElementById("decline");
 let specialTiles = [];
+let p1Bank;
+let p2Bank;
+let p1TotalGold = 0;
+let p2TotalGold = 0;
 
 // make special card drops on random tiles
 function getRandomTile() {
-  return Math.floor(Math.random() * 400) + 1;
+  let num = Math.floor(Math.random() * 400) + 1;
+  if ((num === 161) || (num === 180)){
+    console.log('Cannot start on special tile')
+  }else {
+    return num;
+  }
 }
 function getRandomNumber() {
   return Math.floor(Math.random() * 10) + 1;
+
 }
 
 //makes 6 special tiles
@@ -37,7 +47,7 @@ for (let i = 1; i < 401; i++) {
   board.style.height = '5%';
   board.style.width = '5%';
   board.style.boxSizing = 'border-box';
-  if (specialTiles.includes(i) && i != (161 || 180)){
+  if (specialTiles.includes(i)){
     board.classList.add('special')
   }
   //board.textContent = `${i}`;
@@ -57,7 +67,13 @@ function countArea(className) {
 
   return count;
 }
-
+// players money
+let p1gold = document.querySelector('.p1gold')
+let p2gold = document.querySelector('.p2gold')
+let p1GoldIncome = document.createElement('div')
+let p2GoldIncome = document.createElement('div')
+p1GoldIncome.textContent = 'Gold income per turn: ' + countArea('playerOneArea');
+p2GoldIncome.textContent = 'Gold income per turn: ' + countArea('playerOneArea');
 
 
 
@@ -79,6 +95,7 @@ Player1Area.textContent = 'Total area: 0 tiles';
 
 function PlayerOneTurn() {
   let moveCount = 0; // Track key presses
+  playerOnePosition.classList.remove('playerTwoArea')
 
   function handleKeyPress(event) {
     if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
@@ -135,7 +152,9 @@ function PlayerOneTurn() {
     p2Area = countArea("playerTwoArea");
     Player2Area.textContent = 'Total area: ' + p2Area + ' tiles';
     checkPlayerPosition(playerOnePosition);
-    
+
+    p1GoldIncome.textContent = 'Gold income per turn: ' + countArea('playerOneArea');
+    p2GoldIncome.textContent = 'Gold income per turn: ' + countArea('playerTwoArea');
     if (playerOnePosition.classList.contains('playerTwoArea')){
       playerOnePosition.classList.remove('playerTwoArea')
     } else if (playerOnePosition.classList.contains('playerOneArea')){
@@ -146,7 +165,6 @@ function PlayerOneTurn() {
     
     if (moveCount >= maxMoves) {
       document.removeEventListener("keydown", handleKeyPress);
-      playerTurn = 2;
       switchTurn();
     }
   }
@@ -170,7 +188,7 @@ moveCounterTwo.textContent = 'Moves spent: 0 out of ' + maxMoves;
 
 function playerTwoTurn() {
   let moveCount = 0; // Track key presses
-
+  playerTwoPosition.classList.remove('playerOneArea')
   function handleKeyPressTwo(event) {
     if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
       moveCount++;
@@ -226,6 +244,8 @@ function playerTwoTurn() {
     p1Area = countArea("playerOneArea");
     Player1Area.textContent = 'Total area: ' + p1Area + ' tiles';
     checkPlayerPosition(playerTwoPosition);
+    p1GoldIncome.textContent = 'Gold income per turn: ' + countArea('playerOneArea');
+    p2GoldIncome.textContent = 'Gold income per turn: ' + countArea('playerTwoArea');
 
     if (playerTwoPosition.classList.contains('playerOneArea')){
       playerTwoPosition.classList.remove('playerOneArea')
@@ -237,7 +257,6 @@ function playerTwoTurn() {
     // Stop listening after maxMove key presses
     if (moveCount >= maxMoves) {
       document.removeEventListener("keydown", handleKeyPressTwo);
-      playerTurn = 1;
       switchTurn();
     }
   }
@@ -253,10 +272,31 @@ turnbtn.style.width = '200px';
 turnbtn.style.backgroundColor = 'lightgreen';
 turnbtn.textContent = "Click or press spacebar to begin next player's turn";
 
+let p1BankContainer = document.querySelector('.p1-bank')
+let p2BankContainer = document.querySelector('.p2-bank')
+let p1BankDiv = document.createElement('div');
+let p2BankDiv = document.createElement('div');
+p1BankDiv.textContent = 'Total gold in bank: 0'
+p2BankDiv.textContent = 'Total gold in bank: 0'
+
+// function totalGold(player){
+// //when run, take current total gold in bank and add the players area, then return new total gold
+// if (player === 1){
+//  p1TotalGold =+ countArea('playerOneArea')
+//  console.log(p1TotalGold)
+//  return p1TotalGold
+// } else if (player === 2){
+//   p2TotalGold =+ countArea('playerTwoArea')
+//   console.log(p2TotalGold)
+//   return p2TotalGold
+// }
+// }
+
 function handleTurnEvent(event) {
   // Check if the event is a click or a spacebar press
   if (event.type === "click" || (event.type === "keydown" && event.key === " ")) {
     if (playerTurn === 2) {
+      //totalGold(2)
       turnbtn.classList.toggle('hidden');
       turnUI.textContent = 'Player ' + playerTurn + "'s turn";
       moveCounterTwo.textContent = 'Moves spent: 0 out of ' + maxMoves;
@@ -264,6 +304,7 @@ function handleTurnEvent(event) {
       document.removeEventListener('keydown', handleTurnEvent);
       playerTwoTurn();
     } else if (playerTurn === 1) {
+      //totalGold(1)
       turnbtn.classList.toggle('hidden');
       turnUI.textContent = 'Player ' + playerTurn + "'s turn";
       moveCounter.textContent = 'Moves spent: 0 out of ' + maxMoves;
@@ -277,7 +318,11 @@ function handleTurnEvent(event) {
 // Add event listeners for both click and spacebar
 
 function switchTurn() {
-
+if (playerTurn === 1){
+  playerTurn = 2;
+} else if (playerTurn === 2){
+  playerTurn = 1
+}
   turnbtn.classList.toggle('hidden');
   turnbtn.addEventListener('click', handleTurnEvent);
   document.addEventListener('keydown', handleTurnEvent);
@@ -372,7 +417,8 @@ declinePopup.addEventListener("click", hidePopup);
 
 function checkPlayerPosition(playerTile) {
   for (let i = 0; i <= specialTiles.length; i++){
-    if (playerTile.classList.contains(`cell${specialTiles[i]}`)) { 
+    if (playerTile.classList.contains('special')) { 
+      container.classList.remove('special')
       showPopup();
     }
   }
@@ -380,3 +426,7 @@ function checkPlayerPosition(playerTile) {
 }
 
 
+p1gold.appendChild(p1GoldIncome);
+p2gold.appendChild(p2GoldIncome);
+p1BankContainer.appendChild(p1BankDiv);
+p2BankContainer.appendChild(p2BankDiv);
