@@ -52,13 +52,7 @@ body {
 
 
 
-.playerOnePosition {
-    background-color: red;
-}
 
-.playerTwoPosition {
-    background-color: blue;
-}
 
 .playerTwoArea {
     background-color: lightblue;
@@ -66,6 +60,14 @@ body {
 
 .playerOneArea {
     background-color: pink;
+}
+
+.playerOnePosition {
+    background-color: red;
+}
+
+.playerTwoPosition {
+    background-color: blue;
 }
 
 .hidden {
