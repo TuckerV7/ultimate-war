@@ -11,6 +11,16 @@ let popup = document.getElementById("popup");
 let popupMessage = document.querySelector('.popup-message')
 let acceptPopup = document.getElementById("accept");
 let declinePopup = document.getElementById("decline");
+let shopPopup = document.getElementById('shop-popup');
+let shopMessage = document.querySelector('.shop-message');
+let leaveShop = document.getElementById('leave')
+let shopContent = document.querySelector('.shop-content')
+let flipCard = document.getElementById('next-card')
+let warContent = document.querySelector('.war-content')
+let warContentTop = document.querySelector('.war-content-top')
+let warContentCenter = document.querySelector('.war-content-center')
+let warContentBottom = document.querySelector('.war-content-bottom')
+let shopTile;
 let specialTiles = [];
 let p1Bank;
 let p2Bank;
@@ -32,8 +42,13 @@ function getRandomNumber() {
 
 //makes 6 special tiles
 for (let i = 0; i<6; i++){
+  // if ( i === 0){
+  //   shopTile = getRandomTile();
+  //   console.log('shop tile: '+shopTile)
+
   specialTiles.push(getRandomTile());
-}
+} 
+
 
 //Make the board
 for (let i = 1; i < 401; i++) {
@@ -46,9 +61,12 @@ for (let i = 1; i < 401; i++) {
   board.style.height = '5%';
   board.style.width = '5%';
   board.style.boxSizing = 'border-box';
+  // if (i === shopTile){
+  //   board.classList.add('shop')}
   if (specialTiles.includes(i)){
     board.classList.add('special')
   }
+ 
   //board.textContent = `${i}`;
   container.appendChild(board);
 }
@@ -112,6 +130,7 @@ function PlayerOneTurn() {
           playerOnePosition = document.querySelector(`.cell${cellNumOne}`);
           playerOnePosition.classList.toggle('playerOnePosition');
           playerOnePosition.classList.add('playerOneArea');
+          playerOnePosition.classList.remove('playerTwoArea');
         } else {
           console.log('top border');
         }
@@ -122,6 +141,7 @@ function PlayerOneTurn() {
           playerOnePosition = document.querySelector(`.cell${cellNumOne}`);
           playerOnePosition.classList.toggle('playerOnePosition');
           playerOnePosition.classList.add('playerOneArea');
+          playerOnePosition.classList.remove('playerTwoArea');
         } else {
           console.log('bottom border');
         }
@@ -134,6 +154,7 @@ function PlayerOneTurn() {
           playerOnePosition = document.querySelector(`.cell${cellNumOne}`);
           playerOnePosition.classList.toggle('playerOnePosition');
           playerOnePosition.classList.add('playerOneArea');
+          playerOnePosition.classList.remove('playerTwoArea');
         }
       } else if (event.key === "ArrowRight") {
         if (cellNumOne % 20 === 0) {
@@ -144,6 +165,7 @@ function PlayerOneTurn() {
           playerOnePosition = document.querySelector(`.cell${cellNumOne}`);
           playerOnePosition.classList.toggle('playerOnePosition');
           playerOnePosition.classList.add('playerOneArea');
+          playerOnePosition.classList.remove('playerTwoArea');
         }
       }
     }
@@ -201,6 +223,7 @@ function playerTwoTurn() {
           playerTwoPosition = document.querySelector(`.cell${cellNumTwo}`);
           playerTwoPosition.classList.toggle('playerTwoPosition');
           playerTwoPosition.classList.add('playerTwoArea');
+          playerTwoPosition.classList.remove('playerOneArea')
         } else {
           console.log('top border');
         }
@@ -211,6 +234,7 @@ function playerTwoTurn() {
           playerTwoPosition = document.querySelector(`.cell${cellNumTwo}`);
           playerTwoPosition.classList.toggle('playerTwoPosition');
           playerTwoPosition.classList.add('playerTwoArea');
+          playerTwoPosition.classList.remove('playerOneArea')
         } else {
           console.log('bottom border');
         }
@@ -223,6 +247,7 @@ function playerTwoTurn() {
           playerTwoPosition = document.querySelector(`.cell${cellNumTwo}`);
           playerTwoPosition.classList.toggle('playerTwoPosition');
           playerTwoPosition.classList.add('playerTwoArea');
+          playerTwoPosition.classList.remove('playerOneArea')
         }
       } else if (event.key === "ArrowRight") {
         if (cellNumTwo % 20 === 0) {
@@ -233,6 +258,7 @@ function playerTwoTurn() {
           playerTwoPosition = document.querySelector(`.cell${cellNumTwo}`);
           playerTwoPosition.classList.toggle('playerTwoPosition');
           playerTwoPosition.classList.add('playerTwoArea');
+          playerTwoPosition.classList.remove('playerOneArea')
         }
       }
     }
@@ -379,11 +405,53 @@ let DeckTwoArr = [1, 2, 3, 4];
 let deckTwo = document.querySelector('.p2-deck');
 createDeck(DeckTwoArr, deckTwo);
 
+//card shop
+// let items = [
+//   { name: "Sword", description: "A sharp blade for battle." },
+//   { name: "Shield", description: "Protects you from attacks." },
+//   { name: "Potion", description: "Heals your wounds." },
+//   { name: "Magic Scroll", description: "Contains ancient spells." },
+//   { name: "Gold", description: "Shiny and valuable!" },
+//   { name: "Bow", description: "A ranged weapon for skilled archers." },
+//   { name: "Key", description: "Opens locked doors." },
+//   { name: "Ring", description: "Mysterious and powerful." }
+// ];
 
+// function getRandomItems(arr, num) {
+//   let shuffled = arr.sort(() => 0.5 - Math.random()); // Shuffle the array
+//   return shuffled.slice(0, num); // Take the first `num` items
+// }
 
+// function shopContents(){
+//   for (let i =0; i< 4; i++){
+//   let shopCards = document.createElement('button');
+//   shopCards.classList.add('shopCards')
+//   let selectedItems = getRandomItems(items, 1); // Pick random items
+    
+//   shopCards.textContent = selectedItems.map(item => 
+//     `${item.name} ' '${item.description}`
+//   ).join(""); // Format as HTML
+//   shopContent.appendChild(shopCards);
+//   }
+// }
 
+// function showShop(){
+//   if (playerOnePosition.classList.contains('shop') || playerTwoPosition.classList.contains('shop')){
+//   playerOnePosition.classList.remove('shop')
+//   playerTwoPosition.classList.remove('shop')
+//   shopMessage.textContent = 'You found the shop!';
+//   shopContents()
+//   shopPopup.style.display = 'flex';
+//   } else {
+//     shopMessage.textContent = 'The shop!';
+//     shopPopup.style.display = 'flex';
+//     shopContents()
+//   }
+// }
 
-
+// function hideShop() {
+//   shopPopup.style.display = "none";
+// }
 
 function showPopup() {
   newNumber = getRandomNumber()
@@ -395,6 +463,8 @@ function showPopup() {
 function hidePopup() {
   popup.style.display = "none";
 }
+
+
 
 acceptPopup.addEventListener("click", () => {
   
@@ -412,15 +482,68 @@ acceptPopup.addEventListener("click", () => {
 });
 
 declinePopup.addEventListener("click", hidePopup);
+//leaveShop.addEventListener("click", hideShop);
+function p1Draw(){
+  let drawCard1 = DeckOneArr[Math.floor(Math.random() * DeckOneArr.length)];
+  return drawCard1;
+}
+function p2Draw(){
+  let drawCard2 = DeckTwoArr[Math.floor(Math.random() * DeckTwoArr.length)];
+  return drawCard2;
+}
+
+
+flipCard.addEventListener('click', () => {
+  // Select all elements with the class "warCards"
+  let existingNumbers = document.getElementsByClassName('warCards');
+  
+  // Convert HTMLCollection to an array and remove each element
+  while (existingNumbers.length > 0) {
+    existingNumbers[0].remove();
+  }
+
+  // Create new divs for player cards
+  let cardDrawn1 = document.createElement('div');
+  cardDrawn1.classList.add('warCards');
+  cardDrawn1.id = 'p1-card'
+  cardDrawn1.textContent = p1Draw();
+  let cardDrawn2 = document.createElement('div');
+  cardDrawn2.classList.add('warCards');
+  cardDrawn2.id = 'p2-card'
+  cardDrawn2.textContent = p2Draw();
+
+  warContentCenter.appendChild(cardDrawn1);
+  warContentCenter.appendChild(cardDrawn2);
+});
+
+function warPopup() {
+  document.getElementById("final-war").style.display = "flex";
+  
+}
+
+function closePopup() {
+  document.getElementById("final-war").style.display = "none";
+}
 
 function checkPlayerPosition(playerTile) {
   for (let i = 0; i <= specialTiles.length; i++){
     if (playerTile.classList.contains('special')) { 
       playerTile.classList.remove('special')
       showPopup();
-    }
+    } 
   }
+  if (playerTurn === 1 && playerTile.classList.contains('playerTwoPosition')){
+    warPopup()
+  } else if (playerTurn === 2 && playerTile.classList.contains('playerOnePosition')){
+    warPopup()
 
+  }
+  // if (playerTile.classList.contains('shop')){
+  //   playerTile.classList.add('shopFound')
+  //   showShop();
+  // } else if (playerTile.classList.contains('shopFound')){
+  //   showShop()
+  // }
 }
 
 
