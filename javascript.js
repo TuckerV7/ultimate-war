@@ -159,7 +159,9 @@ function PlayerOneTurn() {
     
     if (moveCount >= maxMoves) {
       document.removeEventListener("keydown", handleKeyPress);
-      switchTurn();
+      turnbtn.classList.toggle('hidden');
+      turnbtn.addEventListener('click', handleTurnEvent);
+      document.addEventListener('keydown', handleTurnEvent);
     }
   }
 
@@ -248,7 +250,9 @@ function playerTwoTurn() {
     // Stop listening after maxMove key presses
     if (moveCount >= maxMoves) {
       document.removeEventListener("keydown", handleKeyPressTwo);
-      switchTurn();
+      turnbtn.classList.toggle('hidden');
+      turnbtn.addEventListener('click', handleTurnEvent);
+      document.addEventListener('keydown', handleTurnEvent);
     }
   }
 
@@ -269,26 +273,14 @@ let p1BankDiv = document.createElement('div');
 let p2BankDiv = document.createElement('div');
 p1BankDiv.textContent = 'Total gold in bank: 0'
 p2BankDiv.textContent = 'Total gold in bank: 0'
-//when run, take current total gold in bank and add the players area, then return new total gold
-
-let playerOneGold = 0;
-let playerTwoGold = 0;
 
 
-function totalGold(player){
-if (player === 1){
- playerOneGold += countArea('playerOneArea');
- return playerOneGold;
-} else if (player === 2){
-  playerTwoGold += countArea('playerTwoArea')
-  return playerTwoGold;
-}
-}
 
 function handleTurnEvent(event) {
   // Check if the event is a click or a spacebar press
   if (event.type === "click" || (event.type === "keydown" && event.key === " ")) {
-    if (playerTurn === 2) {
+    if (playerTurn === 1) {
+      playerTurn = 2;
       p2BankDiv.textContent = 'Total gold in bank: ' + totalGold(2);
       turnbtn.classList.toggle('hidden');
       turnUI.textContent = 'Player ' + playerTurn + "'s turn";
@@ -296,7 +288,8 @@ function handleTurnEvent(event) {
       turnbtn.removeEventListener('click', handleTurnEvent);
       document.removeEventListener('keydown', handleTurnEvent);
       playerTwoTurn();
-    } else if (playerTurn === 1) {
+    } else if (playerTurn === 2) {
+      playerTurn = 1;
       p1BankDiv.textContent = 'Total gold in bank: ' + totalGold(1);
       turnbtn.classList.toggle('hidden');
       turnUI.textContent = 'Player ' + playerTurn + "'s turn";
@@ -338,7 +331,20 @@ playerTwoUI.appendChild(moveCounterTwo);
 playerTwoUI.appendChild(Player2Area);
 center.appendChild(turnbtn);
 
+ //player's gold
+let playerOneGold = 0;
+let playerTwoGold = 0;
 
+
+function totalGold(player){
+if (player === 1){
+ playerOneGold += countArea('playerOneArea');
+ return playerOneGold;
+} else if (player === 2){
+  playerTwoGold += countArea('playerTwoArea')
+  return playerTwoGold;
+}
+}
 
 //Player's decks
 
