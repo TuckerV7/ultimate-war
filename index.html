@@ -10,20 +10,30 @@
 </head>
 
 <body>
-    <div id="popup" class="popup">
+  <div id="startScreen">
+    <h1>Welcome to The Last War</h1>
+    <ol>
+      <li>Explore the map</li>
+      <li>Upgrade your deck</li>
+      <li>Battle your opponent</li>
+      <li>Win The Last War!</li>
+    </ol>
+    <button id="startButton">Start Game</button>
+  </div>
+    <div id="popup" class='popup gameElement'>
         <div class="popup-content">
          <div class = 'popup-message'></div>
           <button id="accept">Accept</button>
           <button id="decline">Decline</button>
         </div>
       </div>
-      <div id="shop-popup" class="shop-popup">
+      <div id="shop-popup" class='shop-popup gameElement'>
         <div class="shop-content">
          <div class = 'shop-message'></div>
         </div>
         <button id="leave">Leave</button>
       </div>
-      <div id="final-war" class="final-war">
+      <div id="final-war" class='final-war gameElement'>
         <div class = 'war-content'>
         <div class="war-content-top">
           <h2>You have started the last war!</h2>
@@ -35,7 +45,7 @@
         </div>
       </div>
 
-    <div class='p1-ui'>
+    <div class='p1-ui gameElement'>
 
         <div class='p1-moves'>
             <h1><p style = 'color: red'><u>Player One</p></u></h1>
@@ -48,13 +58,13 @@
         </div>
         
     </div>
-    <div class='center'>
+    <div class='center gameElement'>
         <div id='war'>
             <h1>The Last War</h1>
         </div>
         <div class='container'></div>
     </div>
-    <div class='p2-ui'>
+    <div class='p2-ui gameElement'>
 
         <div class='p2-moves'>
             <h1><p style = 'color: blue'><u>Player Two</p></u></h1>
@@ -65,10 +75,7 @@
         <div class='p2-deck'>
             
         </div>
-        
     </div>
-
-
 </body>
 
 </html>

@@ -24,7 +24,14 @@ let shopTile;
 let specialTiles = [];
 let p1Bank;
 let p2Bank;
+let startButton = document.getElementById('startButton');
+let startScreen = document.getElementById('startScreen');
+let gameElements = document.querySelectorAll('.gameElement'); 
 
+//starting screen
+startButton.addEventListener('click', function() {
+            startScreen.style.display = 'none'; 
+        });
 
 // make special card drops on random tiles
 function getRandomTile() {
