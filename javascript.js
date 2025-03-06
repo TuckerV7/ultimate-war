@@ -154,9 +154,8 @@ function PlayerOneTurn() {
 
     p1GoldIncome.textContent = 'Gold income per turn: ' + countArea('playerOneArea');
     p2GoldIncome.textContent = 'Gold income per turn: ' + countArea('playerTwoArea');
-    if (playerOnePosition.classList.contains('special')){
-      playerOnePosition.classList.remove('special')
-    }
+    
+    checkPlayerPosition(playerOnePosition)
     
     if (moveCount >= maxMoves) {
       document.removeEventListener("keydown", handleKeyPress);
@@ -235,9 +234,7 @@ function playerTwoTurn() {
         }
       }
     }
-    if (playerTwoPosition.classList.contains('special')){
-      playerTwoPosition.classList.remove('special')
-    }
+    checkPlayerPosition(playerTwoPosition);
 
     p2Area = countArea("playerTwoArea");
     Player2Area.textContent = 'Total area: ' + p2Area + ' tiles';
@@ -363,7 +360,6 @@ function createDeck(deckArray, deckElement) {
     deckContents.textContent = `${deckArray[i]}`;
     deckElement.appendChild(deckContents);
   }
-
 }
 
 
@@ -414,7 +410,7 @@ declinePopup.addEventListener("click", hidePopup);
 function checkPlayerPosition(playerTile) {
   for (let i = 0; i <= specialTiles.length; i++){
     if (playerTile.classList.contains('special')) { 
-      container.classList.remove('special')
+      playerTile.classList.remove('special')
       showPopup();
     }
   }
