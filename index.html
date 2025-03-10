@@ -27,24 +27,20 @@
           <button id="decline">Decline</button>
         </div>
       </div>
-      <div id="shop-popup" class='shop-popup gameElement'>
-        <div class="shop-content">
-         <div class = 'shop-message'></div>
-        </div>
-        <button id="leave">Leave</button>
-      </div>
       <div id="final-war" class='final-war gameElement'>
         <div class = 'war-content'>
         <div class="war-content-top">
           <h2>You have started the last war!</h2>
         </div>
-        <div class = 'war-content-center'></div>
+        <div class = 'war-content-center' id = 'war-content-center'></div>
         <div class = 'war-content-bottom'>
+          <div class = 'p1-lives'>Player one Lives: ♡♡♡</div>
           <button id = 'next-card'>Flip next card</button>
+          <div class = 'p2-lives'>Player two Lives: ♡♡♡</div>
           </div>
         </div>
       </div>
-
+      
     <div class='p1-ui gameElement'>
 
         <div class='p1-moves'>
@@ -61,6 +57,7 @@
     <div class='center gameElement'>
         <div id='war'>
             <h1>The Last War</h1>
+            <div class = 'shop'>This is the shop</div>
         </div>
         <div class='container'></div>
     </div>
@@ -75,6 +72,10 @@
         <div class='p2-deck'>
             
         </div>
+    </div>
+    <div class = 'end-screen'>
+      <div class = 'winning-player'>player x wins!</div>
+      <button id = 'play-again'>Play again</button>
     </div>
 </body>
 

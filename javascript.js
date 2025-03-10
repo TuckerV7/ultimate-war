@@ -27,6 +27,23 @@ let p2Bank;
 let startButton = document.getElementById('startButton');
 let startScreen = document.getElementById('startScreen');
 let gameElements = document.querySelectorAll('.gameElement'); 
+let p1Lives = 3;
+let p2Lives = 3;
+let p1LivesDiv = document.querySelector('.p1-lives')
+let p2LivesDiv = document.querySelector('.p2-lives')
+let endScreen = document.querySelector('.end-screen')
+let playAgainBtn = document.querySelector('#play-again')
+let winningPlayer = document.querySelector('.winning-player')
+
+// Player One deck
+let DeckOneArr = [1, 2, 3, 4, 5, 6];
+let deckOne = document.querySelector('.p1-deck');
+createDeck(DeckOneArr, deckOne);
+
+// Player Two deck
+let DeckTwoArr = [1, 2, 3, 4, 5, 6];
+let deckTwo = document.querySelector('.p2-deck');
+createDeck(DeckTwoArr, deckTwo);
 
 //starting screen
 startButton.addEventListener('click', function() {
@@ -49,9 +66,6 @@ function getRandomNumber() {
 
 //makes 6 special tiles
 for (let i = 0; i<6; i++){
-  // if ( i === 0){
-  //   shopTile = getRandomTile();
-  //   console.log('shop tile: '+shopTile)
 
   specialTiles.push(getRandomTile());
 } 
@@ -68,8 +82,6 @@ for (let i = 1; i < 401; i++) {
   board.style.height = '5%';
   board.style.width = '5%';
   board.style.boxSizing = 'border-box';
-  // if (i === shopTile){
-  //   board.classList.add('shop')}
   if (specialTiles.includes(i)){
     board.classList.add('special')
   }
@@ -402,15 +414,7 @@ function createDeck(deckArray, deckElement) {
 }
 
 
-// Player One deck
-let DeckOneArr = [1, 2, 3, 4];
-let deckOne = document.querySelector('.p1-deck');
-createDeck(DeckOneArr, deckOne);
 
-// Player Two deck
-let DeckTwoArr = [1, 2, 3, 4];
-let deckTwo = document.querySelector('.p2-deck');
-createDeck(DeckTwoArr, deckTwo);
 
 //card shop
 // let items = [
@@ -489,38 +493,133 @@ acceptPopup.addEventListener("click", () => {
 });
 
 declinePopup.addEventListener("click", hidePopup);
-//leaveShop.addEventListener("click", hideShop);
-function p1Draw(){
-  let drawCard1 = DeckOneArr[Math.floor(Math.random() * DeckOneArr.length)];
-  return drawCard1;
-}
-function p2Draw(){
-  let drawCard2 = DeckTwoArr[Math.floor(Math.random() * DeckTwoArr.length)];
-  return drawCard2;
-}
 
 
+
+
+
+let life1UI;
+let life2UI;
+function checkLives(player){
+if (player === 1){
+    if (p1Lives === 2){
+    life1UI = '♡♡';
+    return life1UI
+  } else if (p1Lives === 1){
+    life1UI = '♡'
+    return life1UI;
+  } else if (p1Lives === 0){
+    life1UI = 'You lost!'
+    return life1UI;
+  }
+}
+if (player === 2){
+  if (p2Lives === 2){
+    life2UI = '♡♡';
+    return life2UI
+  } else if (p2Lives === 1){
+    life2UI = '♡'
+    return life2UI;
+  } else if (p2Lives === 0){
+    life2UI = 'You lost!'
+    return life2UI;
+  }
+}
+}
+
+function shuffle(deck) {
+  for (let i = deck.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];  // Swap elements
+  }
+  return deck;
+}
+
+DeckOneArr = shuffle(DeckOneArr);
+DeckTwoArr = shuffle(DeckTwoArr);
+
+// Draw functions for each player
+function p1Draw() {
+  if (DeckOneArr.length > 0) {
+    return DeckOneArr.pop(); 
+  }
+  return null;
+}
+
+function p2Draw() {
+  if (DeckTwoArr.length > 0) {
+    return DeckTwoArr.pop(); 
+  }
+  return null; 
+}
+
+// Click event to draw cards and display them
 flipCard.addEventListener('click', () => {
-  // Select all elements with the class "warCards"
   let existingNumbers = document.getElementsByClassName('warCards');
+
   
-  // Convert HTMLCollection to an array and remove each element
   while (existingNumbers.length > 0) {
     existingNumbers[0].remove();
   }
 
-  // Create new divs for player cards
-  let cardDrawn1 = document.createElement('div');
-  cardDrawn1.classList.add('warCards');
-  cardDrawn1.id = 'p1-card'
-  cardDrawn1.textContent = p1Draw();
-  let cardDrawn2 = document.createElement('div');
-  cardDrawn2.classList.add('warCards');
-  cardDrawn2.id = 'p2-card'
-  cardDrawn2.textContent = p2Draw();
+  let cardDrawn1 = p1Draw();
+  let cardDrawn2 = p2Draw();
 
-  warContentCenter.appendChild(cardDrawn1);
-  warContentCenter.appendChild(cardDrawn2);
+  if (cardDrawn1 !== null && cardDrawn2 !== null) {
+    let cardDiv1 = document.createElement('div');
+    cardDiv1.classList.add('warCards');
+    cardDiv1.id = 'p1-card';
+    cardDiv1.textContent = cardDrawn1;
+    
+    let cardDiv2 = document.createElement('div');
+    cardDiv2.classList.add('warCards');
+    cardDiv2.id = 'p2-card';
+    cardDiv2.textContent = cardDrawn2;
+    warContentCenter.appendChild(cardDiv1);
+    warContentCenter.appendChild(cardDiv2);
+  
+    let xOverlay = document.createElement('div');
+    xOverlay.id = 'xOverlay';
+    xOverlay.textContent = 'X';
+    
+ 
+    
+    // Function to show the "X" and then hide it after a short delay
+    function showX() {
+      xOverlay.style.display = 'flex'; 
+      
+      setTimeout(() => {
+        xOverlay.style.display = 'none'; 
+      }, 1500); 
+    }
+
+    // Compare the drawn cards
+    if (cardDrawn1 < cardDrawn2) {
+      p1Lives -= 1;
+      cardDiv1.appendChild(xOverlay);
+      showX();
+      p1LivesDiv.textContent = 'Player one lives: ' + checkLives(1);
+      console.log('Player 1 loses, lives left ' + p1Lives);
+    } else if (cardDrawn2 < cardDrawn1) {
+      p2Lives -= 1;
+      cardDiv2.appendChild(xOverlay);
+      showX();
+      p2LivesDiv.textContent = 'Player two lives: ' + checkLives(2)
+      console.log('Player 2 loses, lives left: ' + p2Lives);
+    } else {
+      console.log('It\'s a tie, no cards removed');
+    }
+  } else {
+    console.log('No more cards left!');
+  }
+  if (p1Lives === 0){
+    showEndScreen(2);
+console.log('player 2 wins')
+  } else if (p2Lives === 0){
+    showEndScreen(1);
+console.log('player 1 wins')
+  }
+
 });
 
 function warPopup() {
@@ -545,13 +644,31 @@ function checkPlayerPosition(playerTile) {
     warPopup()
 
   }
-  // if (playerTile.classList.contains('shop')){
-  //   playerTile.classList.add('shopFound')
-  //   showShop();
-  // } else if (playerTile.classList.contains('shopFound')){
-  //   showShop()
-  // }
+
 }
+// Function to show end screen once a player has won
+function showEndScreen(player) {
+  let allDivs = document.querySelectorAll('div');
+
+  allDivs.forEach(div => {
+    div.style.display = 'none';
+  });
+
+  endScreen.style.display = 'flex';  
+  winningPlayer.style.display = 'flex';
+  if (player === 1){
+    winningPlayer.textContent = '🎉Player one wins!🎉';
+    winningPlayer.style.backgroundColor = 'pink'
+  }else if (player === 2){
+    winningPlayer.textContent = '🎉Player two wins!🎉';
+    winningPlayer.style.backgroundColor = 'lightblue'
+  }
+}
+
+playAgainBtn.addEventListener('click', () =>{
+  location.reload();
+});
+
 
 
 p1gold.appendChild(p1GoldIncome);
