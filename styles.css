@@ -223,3 +223,26 @@ body {
 #play-again {
   margin-top: 100px;
 }
+
+.shop {
+  display: flex;
+  height: 100px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.shop-card{
+  display: flex;
+  flex-direction: column;
+  height: 125px;
+  width: 125px;
+  margin: 5px;
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+}
+
+.shop-card:hover {
+  background-color: #45a049;
+}

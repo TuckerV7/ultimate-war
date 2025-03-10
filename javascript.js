@@ -11,16 +11,12 @@ let popup = document.getElementById("popup");
 let popupMessage = document.querySelector('.popup-message')
 let acceptPopup = document.getElementById("accept");
 let declinePopup = document.getElementById("decline");
-let shopPopup = document.getElementById('shop-popup');
-let shopMessage = document.querySelector('.shop-message');
-let leaveShop = document.getElementById('leave')
-let shopContent = document.querySelector('.shop-content')
 let flipCard = document.getElementById('next-card')
 let warContent = document.querySelector('.war-content')
 let warContentTop = document.querySelector('.war-content-top')
 let warContentCenter = document.querySelector('.war-content-center')
 let warContentBottom = document.querySelector('.war-content-bottom')
-let shopTile;
+let shop = document.querySelector('.shop');
 let specialTiles = [];
 let p1Bank;
 let p2Bank;
@@ -34,6 +30,7 @@ let p2LivesDiv = document.querySelector('.p2-lives')
 let endScreen = document.querySelector('.end-screen')
 let playAgainBtn = document.querySelector('#play-again')
 let winningPlayer = document.querySelector('.winning-player')
+
 
 // Player One deck
 let DeckOneArr = [1, 2, 3, 4, 5, 6];
@@ -366,7 +363,6 @@ PlayerOneTurn();
 let turnUI = document.createElement('div');
 turnUI.textContent = 'Player ' + playerTurn + "'s turn";
 turnUI.style.fontSize = 'larger';
-
 center.appendChild(turnUI);
 
 
@@ -413,57 +409,6 @@ function createDeck(deckArray, deckElement) {
   }
 }
 
-
-
-
-//card shop
-// let items = [
-//   { name: "Sword", description: "A sharp blade for battle." },
-//   { name: "Shield", description: "Protects you from attacks." },
-//   { name: "Potion", description: "Heals your wounds." },
-//   { name: "Magic Scroll", description: "Contains ancient spells." },
-//   { name: "Gold", description: "Shiny and valuable!" },
-//   { name: "Bow", description: "A ranged weapon for skilled archers." },
-//   { name: "Key", description: "Opens locked doors." },
-//   { name: "Ring", description: "Mysterious and powerful." }
-// ];
-
-// function getRandomItems(arr, num) {
-//   let shuffled = arr.sort(() => 0.5 - Math.random()); // Shuffle the array
-//   return shuffled.slice(0, num); // Take the first `num` items
-// }
-
-// function shopContents(){
-//   for (let i =0; i< 4; i++){
-//   let shopCards = document.createElement('button');
-//   shopCards.classList.add('shopCards')
-//   let selectedItems = getRandomItems(items, 1); // Pick random items
-    
-//   shopCards.textContent = selectedItems.map(item => 
-//     `${item.name} ' '${item.description}`
-//   ).join(""); // Format as HTML
-//   shopContent.appendChild(shopCards);
-//   }
-// }
-
-// function showShop(){
-//   if (playerOnePosition.classList.contains('shop') || playerTwoPosition.classList.contains('shop')){
-//   playerOnePosition.classList.remove('shop')
-//   playerTwoPosition.classList.remove('shop')
-//   shopMessage.textContent = 'You found the shop!';
-//   shopContents()
-//   shopPopup.style.display = 'flex';
-//   } else {
-//     shopMessage.textContent = 'The shop!';
-//     shopPopup.style.display = 'flex';
-//     shopContents()
-//   }
-// }
-
-// function hideShop() {
-//   shopPopup.style.display = "none";
-// }
-
 function showPopup() {
   newNumber = getRandomNumber()
   popupMessage.textContent = `You found a ` + newNumber + '!';
@@ -487,9 +432,7 @@ acceptPopup.addEventListener("click", () => {
     DeckTwoArr.push(newNumber)
     createDeck(DeckTwoArr, deckTwo);
     hidePopup()
-
   }
-  
 });
 
 declinePopup.addEventListener("click", hidePopup);
@@ -670,7 +613,7 @@ playAgainBtn.addEventListener('click', () =>{
 });
 
 
-
+showShop();
 p1gold.appendChild(p1GoldIncome);
 p2gold.appendChild(p2GoldIncome);
 p1BankContainer.appendChild(p1BankDiv);
