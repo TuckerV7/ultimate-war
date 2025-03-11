@@ -3,6 +3,7 @@ const center = document.querySelector('.center');
 let playerTurn = 1;
 let moveCount = 0;
 let maxMoves = 5;
+let maxMoves2 = 5;
 let activeFunction = null;
 let p1Area;
 let p2Area;
@@ -30,15 +31,18 @@ let p2LivesDiv = document.querySelector('.p2-lives')
 let endScreen = document.querySelector('.end-screen')
 let playAgainBtn = document.querySelector('#play-again')
 let winningPlayer = document.querySelector('.winning-player')
-
+let warLives1 = document.querySelector('.war-lives1')
+let warLives2 = document.querySelector('.war-lives2')
+warLives1.textContent = 'Lives for The Last War: ♡♡♡'
+warLives2.textContent = 'Lives for The Last War: ♡♡♡'
 
 // Player One deck
-let DeckOneArr = [1, 2, 3, 4, 5, 6];
+let DeckOneArr = [1, 2, 3, 4, 5];
 let deckOne = document.querySelector('.p1-deck');
 createDeck(DeckOneArr, deckOne);
 
 // Player Two deck
-let DeckTwoArr = [1, 2, 3, 4, 5, 6];
+let DeckTwoArr = [1, 2, 3, 4, 5];
 let deckTwo = document.querySelector('.p2-deck');
 createDeck(DeckTwoArr, deckTwo);
 
@@ -56,6 +60,20 @@ function getRandomTile() {
     return num;
   }
 }
+//make new special tile
+function getNewTile() {
+  let newNum = Math.floor(Math.random() * 400) + 1;
+  specialTiles.push(newNum);
+
+  let specialTile = document.querySelector(`.cell${newNum}`);
+  
+  if (specialTile) {
+    specialTile.classList.add('special');
+  } else {
+    console.log(`Tile .cell${newNum} not found`);
+  }
+}
+
 function getRandomNumber() {
   return Math.floor(Math.random() * 10) + 1;
 
@@ -208,7 +226,7 @@ function PlayerOneTurn() {
 
 let playerTwoUI = document.querySelector('.p2-moves');
 let moveCounterTwo = document.createElement('div');
-moveCounterTwo.textContent = 'Moves spent: 0 out of ' + maxMoves;
+moveCounterTwo.textContent = 'Moves spent: 0 out of ' + maxMoves2;
 let Player2Area = document.createElement('div');
 Player2Area.style.margin = '5px';
 Player2Area.textContent = 'Total area: 0 tiles';
@@ -216,7 +234,7 @@ Player2Area.textContent = 'Total area: 0 tiles';
 let cellNumTwo = 180;
 let playerTwoPosition = document.querySelector(`.cell${cellNumTwo}`);
 playerTwoPosition.classList.toggle('playerTwoPosition');
-moveCounterTwo.textContent = 'Moves spent: 0 out of ' + maxMoves;
+moveCounterTwo.textContent = 'Moves spent: 0 out of ' + maxMoves2;
 
 
 
@@ -225,13 +243,13 @@ function playerTwoTurn() {
   function handleKeyPressTwo(event) {
     if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
       moveCount++;
-      moveCounterTwo.textContent = 'Moves spent: ' + moveCount + ' out of ' + maxMoves;
+      moveCounterTwo.textContent = 'Moves spent: ' + moveCount + ' out of ' + maxMoves2;
       playerTwoPosition.classList.add('playerTwoArea');
       playerTwoPosition.classList.remove('playerOneArea')
 
     }
 
-    if (moveCount <= maxMoves) {
+    if (moveCount <= maxMoves2) {
       if (event.key === "ArrowUp") {
         if (cellNumTwo > 20) {
           playerTwoPosition.classList.toggle('playerTwoPosition');
@@ -290,7 +308,7 @@ function playerTwoTurn() {
 
    
     // Stop listening after maxMove key presses
-    if (moveCount >= maxMoves) {
+    if (moveCount >= maxMoves2) {
       document.removeEventListener("keydown", handleKeyPressTwo);
       turnbtn.classList.toggle('hidden');
       turnbtn.addEventListener('click', handleTurnEvent);
@@ -326,7 +344,7 @@ function handleTurnEvent(event) {
       p2BankDiv.textContent = 'Total gold in bank: ' + totalGold(2);
       turnbtn.classList.toggle('hidden');
       turnUI.textContent = 'Player ' + playerTurn + "'s turn";
-      moveCounterTwo.textContent = 'Moves spent: 0 out of ' + maxMoves;
+      moveCounterTwo.textContent = 'Moves spent: 0 out of ' + maxMoves2;
       turnbtn.removeEventListener('click', handleTurnEvent);
       document.removeEventListener('keydown', handleTurnEvent);
       playerTwoTurn();
@@ -394,6 +412,7 @@ function createDeck(deckArray, deckElement) {
   while (deckElement.firstChild) {
     deckElement.removeChild(deckElement.firstChild);
   }
+  deckArray.sort((a, b) => a - b);
   for (let i = 0; i < deckArray.length; i++) {
     let deckContents = document.createElement('div');
     deckContents.style.cssText = "height: 50px; width: 50px;";
@@ -445,6 +464,22 @@ let life1UI;
 let life2UI;
 function checkLives(player){
 if (player === 1){
+  if (p1Lives === 6){
+    life1UI = '♡♡♡♡♡♡';
+    return life1UI
+  }
+  if (p1Lives === 5){
+    life1UI = '♡♡♡♡♡';
+    return life1UI
+  }
+  if (p1Lives === 4){
+    life1UI = '♡♡♡♡';
+    return life1UI
+  }
+  if (p1Lives === 3){
+    life1UI = '♡♡♡';
+    return life1UI
+  }
     if (p1Lives === 2){
     life1UI = '♡♡';
     return life1UI
@@ -457,6 +492,22 @@ if (player === 1){
   }
 }
 if (player === 2){
+  if (p2Lives === 6){
+    life2UI = '♡♡♡♡♡♡';
+    return life2UI
+  }
+  if (p2Lives === 5){
+    life2UI = '♡♡♡♡♡';
+    return life2UI
+  }
+  if (p2Lives === 4){
+    life2UI = '♡♡♡♡';
+    return life2UI
+  }
+  if (p2Lives === 3){
+    life2UI = '♡♡♡';
+    return life2UI
+  }
   if (p2Lives === 2){
     life2UI = '♡♡';
     return life2UI
@@ -478,8 +529,7 @@ function shuffle(deck) {
   return deck;
 }
 
-DeckOneArr = shuffle(DeckOneArr);
-DeckTwoArr = shuffle(DeckTwoArr);
+
 
 // Draw functions for each player
 function p1Draw() {
@@ -499,8 +549,10 @@ function p2Draw() {
 // Click event to draw cards and display them
 flipCard.addEventListener('click', () => {
   let existingNumbers = document.getElementsByClassName('warCards');
+  DeckOneArr = shuffle(DeckOneArr);
+  DeckTwoArr = shuffle(DeckTwoArr);
+ 
 
-  
   while (existingNumbers.length > 0) {
     existingNumbers[0].remove();
   }
@@ -550,7 +602,7 @@ flipCard.addEventListener('click', () => {
       p2LivesDiv.textContent = 'Player two lives: ' + checkLives(2)
       console.log('Player 2 loses, lives left: ' + p2Lives);
     } else {
-      console.log('It\'s a tie, no cards removed');
+      console.log('It\'s a tie');
     }
   } else {
     console.log('No more cards left!');
@@ -567,7 +619,8 @@ console.log('player 1 wins')
 
 function warPopup() {
   document.getElementById("final-war").style.display = "flex";
-  
+  p1LivesDiv.textContent = 'Player one lives: ' + checkLives(1);
+  p2LivesDiv.textContent = 'Player two lives: ' + checkLives(2);
 }
 
 function closePopup() {
@@ -579,6 +632,8 @@ function checkPlayerPosition(playerTile) {
     if (playerTile.classList.contains('special')) { 
       playerTile.classList.remove('special')
       showPopup();
+      getNewTile();
+
     } 
   }
   if (playerTurn === 1 && playerTile.classList.contains('playerTwoPosition')){
